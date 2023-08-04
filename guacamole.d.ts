@@ -1,4 +1,4 @@
-declare module '@ashishpatel/guacamole-common-js' {
+declare module '@glokon/guacamole-common-js' {
 
 
     /**
@@ -19,14 +19,14 @@ declare module '@ashishpatel/guacamole-common-js' {
 
         /**
          * Fired whenever the user presses a key on this Guacamole.OnScreenKeyboard.
-         * 
+         *
          * @event
          * @param {Number} keysym The keysym of the key being pressed.
          */
         onkeydown(keysym: number): void;
         /**
          * Fired whenever the user releases a key on this Guacamole.OnScreenKeyboard.
-         * 
+         *
          * @event
          * @param {Number} keysym The keysym of the key being released.
          */
@@ -49,7 +49,7 @@ declare module '@ashishpatel/guacamole-common-js' {
          * Resizes all elements within this Guacamole.OnScreenKeyboard such that
          * the width is close to but does not exceed the specified width. The
          * height of the keyboard is determined based on the width.
-         * 
+         *
          * @param {Number} width The width to resize this Guacamole.OnScreenKeyboard
          *                       to, in pixels.
          */
@@ -161,13 +161,13 @@ declare module '@ashishpatel/guacamole-common-js' {
              */
             title: string;
 
-            /** 
+            /**
              * The name of the modifier set when the key is pressed and cleared when
              * this key is released, if any. The names of modifiers are distinct from
              * the names of keys; both the "RightShift" and "LeftShift" keys may set
              * the "shift" modifier, for example. By default, the key will affect no
              * modifiers.
-             * 
+             *
              * @type {String}
              */
             modifier: string;
@@ -654,7 +654,7 @@ declare module '@ashishpatel/guacamole-common-js' {
 
     class SocketIOTunnel extends Tunnel {
         constructor(url: string, connectionOptions: any, eventChannel: string);
-        /** 
+        /**
          * Return the socketio socket
          */
         getSocket(): any;
