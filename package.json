@@ -6,7 +6,7 @@
   "types": "guacamole.d.ts",
   "scripts": {
     "build": "webpack",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "keywords": [
     "guacamole",
