@@ -30,8 +30,5 @@ config
 .travis.yml
 CHANGELOG.md
 README.md
-webpack.config.js
-babel.config.js
-tsconfig.json
 .eslintignore
 .eslintrc.json

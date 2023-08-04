@@ -1,21 +1,20 @@
 {
   "name": "@glokon/guacamole-common-js",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "Guacamole common js with typescript type definitions",
   "type": "module",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
   "exports": {
     ".": {
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
     }
   },
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "node build.cjs && npm run build:esm:minify && npm run build:cjs:minify",
-    "build:esm:minify": "minify lib/esm/index.js > lib/esm/index.min.js",
-    "build:cjs:minify": "minify lib/cjs/index.js > lib/cjs/index.min.js",
+    "build": "node build.cjs && npm run build:minify",
+    "build:minify": "minify lib/index.js > lib/index.min.js",
     "prepublishOnly": "npm run build",
     "test": "jest --passWithNoTests"
   },
