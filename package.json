@@ -1,6 +1,6 @@
 {
   "name": "@glokon/guacamole-common-js",
-  "version": "1.5.3.1",
+  "version": "1.5.4",
   "description": "Guacamole common js with typescript type definitions",
   "main": "lib/index.js",
   "types": "guacamole.d.ts",
