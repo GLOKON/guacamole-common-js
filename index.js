@@ -33,9 +33,3 @@ require('./src/Tunnel');
 require('./src/UTF8Parser');
 require('./src/Version');
 require('./src/VideoPlayer');
-
-if(module && module.exports) {
-    module.exports = Guacamole;
-} else {
-    window.Guacamole = Guacamole;
-}
