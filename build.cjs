@@ -8,8 +8,10 @@ const src = fs.readdirSync(srcDir)
     })
     .join('\n\n');
 
-const cjs = `${src}
-module.exports = Guacamole;`;
+const cjs = `;(function(){
+  ${src}
+  module.exports = Guacamole;
+})();`;
 
 fs.rmSync('./lib/', { recursive: true, force: true });
 fs.mkdirSync('./lib/', { recursive: true });

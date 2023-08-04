@@ -32,3 +32,4 @@ CHANGELOG.md
 README.md
 .eslintignore
 .eslintrc.json
+build.cjs

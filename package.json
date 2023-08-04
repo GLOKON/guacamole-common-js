@@ -1,6 +1,6 @@
 {
   "name": "@glokon/guacamole-common-js",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "description": "Guacamole common js with typescript type definitions",
   "type": "module",
   "main": "lib/index.js",
@@ -11,7 +11,7 @@
       "require": "./lib/index.js"
     }
   },
-  "types": "types/index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "build": "node build.cjs && npm run build:minify",
     "build:minify": "minify lib/index.js > lib/index.min.js",
