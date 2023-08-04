@@ -17,6 +17,6 @@
         "forceConsistentCasingInFileNames": true
     },
     "files": [
-        "guacamole.d.ts"
+      "index.d.ts"
     ]
 }
