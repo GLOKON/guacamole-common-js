@@ -13,4 +13,4 @@ export default Guacamole;`;
 
 fs.rmSync('./lib/esm/', { recursive: true, force: true });
 fs.mkdirSync('./lib/esm/', { recursive: true });
-fs.writeFileSync('./lib/esm/index.js', esm);
+fs.writeFileSync('./lib/esm/guacamole.js', esm);

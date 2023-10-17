@@ -1,29 +1,29 @@
 {
   "name": "@glokon/guacamole-common-js",
-  "version": "1.5.12",
+  "version": "1.5.13",
   "description": "Guacamole common js with typescript type definitions",
   "type": "module",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "main": "lib/cjs/guacamole.js",
+  "module": "lib/esm/guacamole.js",
   "exports": {
     ".": {
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "import": "./lib/esm/guacamole.js",
+      "require": "./lib/cjs/guacamole.js"
     }
   },
-  "types": "index.d.ts",
+  "types": "guacamole.d.ts",
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm",
-    "build:esm:minify": "minify lib/esm/index.js > lib/esm/index.min.js",
+    "build:esm:minify": "minify lib/esm/guacamole.js > lib/esm/guacamole.min.js",
     "build:esm": "node build-esm.cjs && npm run build:esm:minify",
-    "build:cjs:minify": "minify lib/cjs/index.js > lib/cjs/index.min.js",
+    "build:cjs:minify": "minify lib/cjs/guacamole.js > lib/cjs/guacamole.min.js",
     "build:cjs": "node build-cjs.cjs && npm run build:cjs:minify",
     "prepublishOnly": "npm run build",
     "test": "jest --passWithNoTests"
   },
   "files": [
     "lib",
-    "index.d.ts",
+    "guacamole.d.ts",
     "tsconfig.json",
     "LICENSE",
     "README.md"

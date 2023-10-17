@@ -1,12 +1,10 @@
 declare module '@glokon/guacamole-common-js' {
-
-
     /**
      * Dynamic on-screen keyboard. Given the layout object for an on-screen
      * keyboard, this object will construct a clickable on-screen keyboard with its
      * own key events.
      */
-    class OnScreenKeyboard {
+    export class OnScreenKeyboard {
         constructor(layout: OnScreenKeyboard.Layout);
 
         /**
@@ -66,7 +64,7 @@ declare module '@glokon/guacamole-common-js' {
     namespace OnScreenKeyboard {
 
 
-        class Layout {
+        export class Layout {
 
             /**
              * @constructor
@@ -143,7 +141,7 @@ declare module '@glokon/guacamole-common-js' {
          * implied, and may have multiple Guacamole.OnScreenKeyboard.Key if behavior
          * depends on modifier states.
          */
-        class Key {
+        export class Key {
             constructor(template: any, name: string);
 
             /**
@@ -193,7 +191,7 @@ declare module '@glokon/guacamole-common-js' {
      * automatically handles incoming and outgoing Guacamole instructions via the
      * provided tunnel, updating its display using one or more canvas elements.
      */
-    class Client {
+    export class Client {
         /**
          * @param {Guacamole.Tunnel} tunnel The tunnel to use to send and receive
          *                                  Guacamole instructions.
@@ -554,7 +552,7 @@ declare module '@glokon/guacamole-common-js' {
      * @constructor
      * @see Guacamole.HTTPTunnel
      */
-    class Tunnel {
+    export class Tunnel {
         static INTERNAL_DATA_OPCODE: string;
         static State: any;
 
@@ -644,7 +642,7 @@ declare module '@glokon/guacamole-common-js' {
     /**
      * Guacamole Tunnel implemented over WebSocket via XMLHttpRequest.
      */
-    class WebSocketTunnel extends Tunnel {
+    export class WebSocketTunnel extends Tunnel {
         /**
          * @param {String} tunnelURL The URL of the WebSocket tunneling service.
          */
@@ -652,7 +650,7 @@ declare module '@glokon/guacamole-common-js' {
     }
 
 
-    class SocketIOTunnel extends Tunnel {
+    export class SocketIOTunnel extends Tunnel {
         constructor(url: string, connectionOptions: any, eventChannel: string);
         /**
          * Return the socketio socket
@@ -667,7 +665,7 @@ declare module '@glokon/guacamole-common-js' {
      * received, or no tunnels remain, the error is passed directly out
      * through the onerror handler (if defined).
      */
-    class ChainedTunnel extends Tunnel {
+    export class ChainedTunnel extends Tunnel {
         /**
          * @param {...*} tunnelChain
          *     The tunnels to use, in order of priority.
@@ -678,7 +676,7 @@ declare module '@glokon/guacamole-common-js' {
     /**
      * Guacamole Tunnel implemented over HTTP via XMLHttpRequest.
      */
-    class HTTPTunnel extends Tunnel {
+    export class HTTPTunnel extends Tunnel {
         /**
          * @param {String} tunnelURL
          *     The URL of the HTTP tunneling service.
@@ -701,7 +699,7 @@ declare module '@glokon/guacamole-common-js' {
      * received via HTTP. Instructions within the file are parsed and handled as
      * quickly as possible, while the file is being downloaded.
      */
-    class StaticHTTPTunnel extends Tunnel {
+    export class StaticHTTPTunnel extends Tunnel {
         /**
          * @param {String} url
          *     The URL of a Guacamole protocol dump.
@@ -721,11 +719,11 @@ declare module '@glokon/guacamole-common-js' {
 
     /**
      * Abstract audio player which accepts, queues and plays back arbitrary audio
-     * data. It is up to implementations of this class to provide some means of
+     * data. It is up to implementations of this export class to provide some means of
      * handling a provided Guacamole.InputStream. Data received along the provided
      * stream is to be played back immediately.
      */
-    class AudioPlayer {
+    export class AudioPlayer {
         sync(): void;
         /**
          * Determines whether the given mimetype is supported by any built-in
@@ -781,7 +779,7 @@ declare module '@glokon/guacamole-common-js' {
      * audio. This player relies only on the Web Audio API and does not require any
      * browser-level support for its audio formats.
      */
-    class RawAudioPlayer extends AudioPlayer {
+    export class RawAudioPlayer extends AudioPlayer {
         /**
           * @augments Guacamole.AudioPlayer
           * @param {Guacamole.InputStream} stream
@@ -829,11 +827,11 @@ declare module '@glokon/guacamole-common-js' {
 
     /**
      * Abstract audio recorder which streams arbitrary audio data to an underlying
-     * Guacamole.OutputStream. It is up to implementations of this class to provide
+     * Guacamole.OutputStream. It is up to implementations of this export class to provide
      * some means of handling this Guacamole.OutputStream. Data produced by the
      * recorder is to be sent along the provided stream immediately.
      */
-    class AudioRecorder {
+    export class AudioRecorder {
         /**
           * Callback which is invoked when the audio recording process has stopped
           * and the underlying Guacamole stream has been closed normally. Audio will
@@ -900,7 +898,7 @@ declare module '@glokon/guacamole-common-js' {
          *     writing to the given stream, or null if support for the given mimetype
          *     is absent.
          */
-        static getInstance(stream: OutputStream, mimetype: string);
+        static getInstance(stream: OutputStream, mimetype: string): AudioRecorder;
     }
 
     /**
@@ -918,7 +916,7 @@ declare module '@glokon/guacamole-common-js' {
      *     must be a "audio/L8" or "audio/L16" mimetype with necessary parameters,
      *     such as: "audio/L16;rate=44100,channels=2".
      */
-    class RawAudioRecorder extends AudioRecorder {
+    export class RawAudioRecorder extends AudioRecorder {
         /**
          * @augments Guacamole.AudioRecorder
          * @param {Guacamole.OutputStream} stream
@@ -965,7 +963,7 @@ declare module '@glokon/guacamole-common-js' {
      * Browser and keyboard layout variation is abstracted away, providing events
      * which represent keys as their corresponding X11 keysym.
      */
-    class Keyboard {
+    export class Keyboard {
         /**
          * @param {Element} element The Element to use to provide keyboard events.
          */
@@ -1022,7 +1020,7 @@ declare module '@glokon/guacamole-common-js' {
      * are executed is guaranteed to be in the same order as their corresponding
      * functions are called.
      */
-    class Display {
+    export class Display {
 
         /**
          * The X coordinate of the hotspot of the mouse cursor. The hotspot is
@@ -1652,7 +1650,7 @@ declare module '@glokon/guacamole-common-js' {
          * repositioned and nested. This allows certain operations to be accelerated
          * through DOM manipulation, rather than raster operations.
          */
-        class VisibleLayer {
+        export class VisibleLayer {
 
             /**
              * The opacity of the layer container, where 255 is fully opaque and 0 is
@@ -1778,7 +1776,7 @@ declare module '@glokon/guacamole-common-js' {
      * on a touchscreen (tapping anywhere on the screen clicks at that point,
      * long-press to right-click).
      */
-    class Mouse {
+    export class Mouse {
         /**
          * @param {Element} element The Element to use to provide touch events.
          */
@@ -1823,7 +1821,7 @@ declare module '@glokon/guacamole-common-js' {
         /**
          * Simple container for properties describing the state of a mouse.
          */
-        class State {
+        export class State {
             /**
              * @param {Number} x The X position of the mouse pointer in pixels.
              * @param {Number} y The Y position of the mouse pointer in pixels.
@@ -1892,7 +1890,7 @@ declare module '@glokon/guacamole-common-js' {
      * guaranteed to run in order, even if such an operation must wait for an image
      * to load before completing.
      */
-    class Layer {
+    export class Layer {
         /**
          * @param {Number} width The width of the Layer, in pixels. The canvas element
          *                       backing this Layer will be given this width.
@@ -2219,7 +2217,7 @@ declare module '@glokon/guacamole-common-js' {
      * @param {String} [message]
      *     An optional human-readable message.
      */
-    class Status {
+    export class Status {
         /**
          * @param {Number} code
          *     The Guacamole status code, as defined by Guacamole.Status.Code.
@@ -2246,7 +2244,7 @@ declare module '@glokon/guacamole-common-js' {
      * An input stream abstraction used by the Guacamole client to facilitate
      * transfer of files or other binary data.
      */
-    class InputStream {
+    export class InputStream {
         /**
          * @param {Guacamole.Client} client The client owning this stream.
          * @param {Number} index The index of this stream.
@@ -2267,7 +2265,7 @@ declare module '@glokon/guacamole-common-js' {
     /**
      * Abstract stream which can receive data.
      */
-    class OutputStream {
+    export class OutputStream {
         /**
          * @param {Guacamole.Client} client The client owning this stream.
          * @param {Number} index The index of this stream.
@@ -2291,7 +2289,7 @@ declare module '@glokon/guacamole-common-js' {
      * Integer pool which returns consistently increasing integers while integers
      * are in use, and previously-used integers when possible.
      */
-    class IntegerPool {
+    export class IntegerPool {
         /**
          * Returns the next available integer in the pool. If possible, a previously
          * used integer will be returned.
@@ -2314,7 +2312,7 @@ declare module '@glokon/guacamole-common-js' {
      * strictly text data. Note that this object will overwrite any installed event
      * handlers on the given Guacamole.InputStream.
      */
-    class StringReader {
+    export class StringReader {
         /**
          * @param {Guacamole.InputStream} stream The stream that data will be read
          *                                       from.
@@ -2345,7 +2343,7 @@ declare module '@glokon/guacamole-common-js' {
      * @param {Guacamole.OutputStream} stream
      *     The stream that data will be written to.
      */
-    class BlobWriter {
+    export class BlobWriter {
         /**
          * @param {Guacamole.OutputStream} stream
          *     The stream that data will be written to.
@@ -2424,7 +2422,7 @@ declare module '@glokon/guacamole-common-js' {
      * Note that this object will overwrite any installed event handlers on the
      * given Guacamole.InputStream.
      */
-    class BlobReader {
+    export class BlobReader {
         /**
          * @param {Guacamole.InputStream} stream The stream that data will be read
          *                                       from.
@@ -2466,7 +2464,7 @@ declare module '@glokon/guacamole-common-js' {
      * Note that this object will overwrite any installed event handlers on the
      * given Guacamole.InputStream.
      */
-    class DataURIReader {
+    export class DataURIReader {
         /**
          * @param {Guacamole.InputStream} stream
          * @param mimetype
@@ -2495,7 +2493,7 @@ declare module '@glokon/guacamole-common-js' {
      * An object used by the Guacamole client to house arbitrarily-many named
      * input and output streams.
      */
-    class Object {
+    export class Object {
         /**
          * @param {Guacamole.Client} client
          *     The client owning this object.
@@ -2571,7 +2569,7 @@ declare module '@glokon/guacamole-common-js' {
      * order, and decoding the result as JSON. Note that this object will overwrite
      * any installed event handlers on the given Guacamole.InputStream.
      */
-    class JSONReader {
+    export class JSONReader {
         /**
          * @param {Guacamole.InputStream} stream
          */
@@ -2616,7 +2614,7 @@ declare module '@glokon/guacamole-common-js' {
      * A writer which automatically writes to the given output stream with text
      * data.
      */
-    class StringWriter {
+    export class StringWriter {
         /**
          * @param stream @param {Guacamole.OutputStream} stream The stream that data will be written to.
          */
@@ -2647,7 +2645,7 @@ declare module '@glokon/guacamole-common-js' {
      * Simple Guacamole protocol parser that invokes an oninstruction event when
      * full instructions are available from data received via receive().
      */
-    class Parser {
+    export class Parser {
         /**
          * Appends the given instruction data packet to the internal buffer of
          * this Guacamole.Parser, executing all completed instructions at
@@ -2674,7 +2672,7 @@ declare module '@glokon/guacamole-common-js' {
      * strictly received packets as array buffers. Note that this object will
      * overwrite any installed event handlers on the given Guacamole.InputStream.
      */
-    class ArrayBufferReader {
+    export class ArrayBufferReader {
         /**
          * @param {Guacamole.InputStream} stream The stream that data will be read
          */
@@ -2699,7 +2697,7 @@ declare module '@glokon/guacamole-common-js' {
      * A writer which automatically writes to the given output stream with arbitrary
      * binary data, supplied as ArrayBuffers.
      */
-    class ArrayBufferWriter {
+    export class ArrayBufferWriter {
         /**
          * @param {Guacamole.OutputStream} stream The stream that data will be written to.
          */
@@ -2731,7 +2729,7 @@ declare module '@glokon/guacamole-common-js' {
      * describes the number of bytes per sample, the number of channels, and the
      * overall sample rate.
      */
-    class RawAudioFormat {
+    export class RawAudioFormat {
         /**
          * @param {Guacamole.RawAudioFormat|Object} template
          *     The object whose properties should be copied into the corresponding
@@ -2757,12 +2755,12 @@ declare module '@glokon/guacamole-common-js' {
 
     /**
      * Abstract video player which accepts, queues and plays back arbitrary video
-     * data. It is up to implementations of this class to provide some means of
+     * data. It is up to implementations of this export class to provide some means of
      * handling a provided Guacamole.InputStream and rendering the received data to
      * the provided Guacamole.Display.VisibleLayer. Data received along the
      * provided stream is to be played back immediately.
      */
-    class VideoPlayer {
+    export class VideoPlayer {
         /**
           * Notifies this Guacamole.VideoPlayer that all video up to the current
           * point in time has been given via the underlying stream, and that any

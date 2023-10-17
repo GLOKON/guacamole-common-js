@@ -13,4 +13,4 @@ module.exports = Guacamole;`;
 
 fs.rmSync('./lib/cjs/', { recursive: true, force: true });
 fs.mkdirSync('./lib/cjs/', { recursive: true });
-fs.writeFileSync('./lib/cjs/index.js', cjs);
+fs.writeFileSync('./lib/cjs/guacamole.js', cjs);
