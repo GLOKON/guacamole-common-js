@@ -32,4 +32,5 @@ CHANGELOG.md
 README.md
 .eslintignore
 .eslintrc.json
-build.cjs
+build-cjs.cjs
+build-esm.cjs

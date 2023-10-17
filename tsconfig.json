@@ -1,9 +1,7 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "lib": [
-            "es6"
-        ],
+        "target": "es6",
+        "module": "es6",
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictNullChecks": true,
@@ -14,7 +12,12 @@
         ],
         "types": [],
         "noEmit": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "outDir": "lib/esm/"
     },
     "files": [
       "index.d.ts"

@@ -13,6 +13,6 @@ const cjs = `;(function(){
   module.exports = Guacamole;
 })();`;
 
-fs.rmSync('./lib/', { recursive: true, force: true });
-fs.mkdirSync('./lib/', { recursive: true });
-fs.writeFileSync('./lib/index.js', cjs);
+fs.rmSync('./lib/cjs/', { recursive: true, force: true });
+fs.mkdirSync('./lib/cjs/', { recursive: true });
+fs.writeFileSync('./lib/cjs/index.js', cjs);
