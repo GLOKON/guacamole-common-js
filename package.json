@@ -1,6 +1,6 @@
 {
   "name": "@glokon/guacamole-common-js",
-  "version": "1.5.11",
+  "version": "1.5.12",
   "description": "Guacamole common js with typescript type definitions",
   "type": "module",
   "main": "lib/cjs/index.js",
@@ -23,6 +23,9 @@
   },
   "files": [
     "lib",
+    "index.d.ts",
+    "tsconfig.json",
+    "LICENSE",
     "README.md"
   ],
   "keywords": [
