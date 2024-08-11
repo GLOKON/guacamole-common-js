@@ -1,5 +1,6 @@
 export * from './types/ArrayBufferReader';
 export * from './types/ArrayBufferWriter';
+export * from './types/AudioContextFactory';
 export * from './types/AudioPlayer';
 export * from './types/AudioRecorder';
 export * from './types/BlobReader';
