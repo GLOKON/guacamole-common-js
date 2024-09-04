@@ -67,7 +67,7 @@ export abstract class Tunnel {
      *     The elements of the message to send to the service on the other side
      *     of the tunnel.
      */
-    sendMessage(elements: any): void;
+    sendMessage(elements: IArguments): void;
 
     /**
      * Returns whether this tunnel is currently connected.

@@ -58,7 +58,7 @@ export class Parser {
      * those strings as length-prefixed elements of a complete Guacamole
      * instruction.
      *
-     * @param elements
+     * @param {...*} elements
      *     The values that should be encoded as the elements of a Guacamole
      *     instruction. Order of these elements is preserved. This array MUST have
      *     at least one element.
@@ -67,5 +67,5 @@ export class Parser {
      *     A complete Guacamole instruction consisting of each of the provided
      *     element values, in order.
      */
-    static toInstruction(elements: any[]): string;
+    static toInstruction(elements: IArguments): string;
 }
