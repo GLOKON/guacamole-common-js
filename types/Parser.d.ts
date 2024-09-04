@@ -67,5 +67,5 @@ export class Parser {
      *     A complete Guacamole instruction consisting of each of the provided
      *     element values, in order.
      */
-    static toInstruction(elements: IArguments): string;
+    static toInstruction(...elements: any[]): string;
 }

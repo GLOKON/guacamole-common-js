@@ -67,7 +67,25 @@ export abstract class Tunnel {
      *     The elements of the message to send to the service on the other side
      *     of the tunnel.
      */
-    sendMessage(elements: IArguments): void;
+    sendMessage(...elements: any[]): void;
+
+    /**
+     * Changes the stored numeric state of this tunnel, firing the onstatechange
+     * event if the new state is different and a handler has been defined.
+     *
+     * @param {!number} state
+     *     The new state of this tunnel.
+     */
+    protected setState(state: Tunnel.State): void;
+
+    /**
+     * Changes the stored UUID that uniquely identifies this tunnel, firing the
+     * onuuid event if a handler has been defined.
+     *
+     * @param {string} uuid
+     *     The new state of this tunnel.
+     */
+    protected setUUID(uuid: string): void;
 
     /**
      * Returns whether this tunnel is currently connected.
