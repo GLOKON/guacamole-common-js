@@ -8,9 +8,17 @@ const src = fs.readdirSync(srcDir)
     })
     .join('\n\n');
 
-const esm = `${src}
-export default Guacamole;`;
+let esm = `${src}
+export default Guacamole;
+`;
 
 fs.rmSync('./lib/esm/', { recursive: true, force: true });
 fs.mkdirSync('./lib/esm/', { recursive: true });
 fs.writeFileSync('./lib/esm/guacamole.js', esm);
+
+import('./lib/esm/guacamole.js').then((Guac) => {
+    const namesToExport = Object.keys(Guac.default);
+    esm += namesToExport.map(n => `const ${n} = Guacamole.${n};`).join('\n');
+    esm += `\nexport {\n${namesToExport.map(n => `    ${n},`).join('\n')}\n};`;
+    fs.writeFileSync('./lib/esm/guacamole.js', esm);
+})
