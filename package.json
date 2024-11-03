@@ -7,8 +7,14 @@
   "module": "lib/esm/guacamole.js",
   "exports": {
     ".": {
-      "import": "./lib/esm/guacamole.js",
-      "require": "./lib/cjs/guacamole.js"
+      "import": {
+        "types": "./guacamole.d.ts",
+        "default": "./lib/esm/guacamole.js"
+      },
+      "require": {
+        "types": "./guacamole.d.ts",
+        "default": "./lib/cjs/guacamole.js"
+      }
     }
   },
   "types": "guacamole.d.ts",
