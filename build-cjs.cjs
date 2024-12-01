@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const srcDir = './src/';
 
 const src = fs.readdirSync(srcDir)
