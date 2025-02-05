@@ -1,6 +1,6 @@
 {
   "name": "@glokon/guacamole-common-js",
-  "version": "1.6.0-beta.0",
+  "version": "1.6.1-beta.0",
   "description": "Guacamole common js with typescript type definitions",
   "type": "module",
   "main": "lib/cjs/guacamole.js",
