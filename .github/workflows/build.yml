@@ -1,7 +1,7 @@
-name: Build & Publish
+name: Build
 on:
   push:
-    branches:
+    branches-ignore:
       - main
       - alpha
       - beta
@@ -21,7 +21,3 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
-      - name: Publish
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

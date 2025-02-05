@@ -25,7 +25,7 @@ var Guacamole = Guacamole || {};
  * embody the set of operations present in the protocol. The order operations
  * are executed is guaranteed to be in the same order as their corresponding
  * functions are called.
- * 
+ *
  * @constructor
  */
 Guacamole.Display = function() {
@@ -65,7 +65,7 @@ Guacamole.Display = function() {
     display.appendChild(default_layer.getElement());
     display.appendChild(cursor.getElement());
 
-    // Create bounding div 
+    // Create bounding div
     var bounds = document.createElement("div");
     bounds.style.position = "relative";
     bounds.style.width = (displayWidth*displayScale) + "px";
@@ -78,7 +78,7 @@ Guacamole.Display = function() {
      * The X coordinate of the hotspot of the mouse cursor. The hotspot is
      * the relative location within the image of the mouse cursor at which
      * each click occurs.
-     * 
+     *
      * @type {!number}
      */
     this.cursorHotspotX = 0;
@@ -87,7 +87,7 @@ Guacamole.Display = function() {
      * The Y coordinate of the hotspot of the mouse cursor. The hotspot is
      * the relative location within the image of the mouse cursor at which
      * each click occurs.
-     * 
+     *
      * @type {!number}
      */
     this.cursorHotspotY = 0;
@@ -97,7 +97,7 @@ Guacamole.Display = function() {
      * necessarily the location of the actual mouse - it refers only to
      * the location of the cursor image within the Guacamole display, as
      * last set by moveCursor().
-     * 
+     *
      * @type {!number}
      */
     this.cursorX = 0;
@@ -107,7 +107,7 @@ Guacamole.Display = function() {
      * necessarily the location of the actual mouse - it refers only to
      * the location of the cursor image within the Guacamole display, as
      * last set by moveCursor().
-     * 
+     *
      * @type {!number}
      */
     this.cursorY = 0;
@@ -126,7 +126,7 @@ Guacamole.Display = function() {
     /**
      * Fired when the default layer (and thus the entire Guacamole display)
      * is resized.
-     * 
+     *
      * @event
      * @param {!number} width
      *     The new width of the Guacamole display.
@@ -140,7 +140,7 @@ Guacamole.Display = function() {
      * Fired whenever the local cursor image is changed. This can be used to
      * implement special handling of the client-side cursor, or to override
      * the default use of a software cursor layer.
-     * 
+     *
      * @event
      * @param {!HTMLCanvasElement} canvas
      *     The cursor image.
@@ -186,19 +186,6 @@ Guacamole.Display = function() {
     var frames = [];
 
     /**
-     * The ID of the animation frame request returned by the last call to
-     * requestAnimationFrame(). This value will only be set if the browser
-     * supports requestAnimationFrame(), if a frame render is currently
-     * pending, and if the current browser tab is currently focused (likely to
-     * handle requests for animation frames). In all other cases, this will be
-     * null.
-     *
-     * @private
-     * @type {number}
-     */
-    var inProgressFrame = null;
-
-    /**
      * Flushes all pending frames synchronously. This function will block until
      * all pending frames have rendered. If a frame is currently blocked by an
      * asynchronous operation like an image load, this function will return
@@ -229,52 +216,13 @@ Guacamole.Display = function() {
             renderedLogicalFrames += frame.logicalFrames;
             rendered_frames++;
 
-        } 
+        }
 
         // Remove rendered frames from array
         frames.splice(0, rendered_frames);
 
         if (rendered_frames)
             notifyFlushed(localTimestamp, remoteTimestamp, renderedLogicalFrames);
-
-    };
-
-    /**
-     * Flushes all pending frames asynchronously. This function returns
-     * immediately, relying on requestAnimationFrame() to dictate when each
-     * frame should be flushed.
-     *
-     * @private
-     */
-    var asyncFlush = function asyncFlush() {
-
-        var continueFlush = function continueFlush() {
-
-            // We're no longer waiting to render a frame
-            inProgressFrame = null;
-
-            // Nothing to do if there are no frames remaining
-            if (!frames.length)
-                return;
-
-            // Flush the next frame only if it is ready (not awaiting
-            // completion of some asynchronous operation like an image load)
-            if (frames[0].isReady()) {
-                var frame = frames.shift();
-                frame.flush();
-                notifyFlushed(frame.localTimestamp, frame.remoteTimestamp, frame.logicalFrames);
-            }
-
-            // Request yet another animation frame if frames remain to be
-            // flushed
-            if (frames.length)
-                inProgressFrame = window.requestAnimationFrame(continueFlush);
-
-        };
-
-        // Begin flushing frames if not already waiting to render a frame
-        if (!inProgressFrame)
-            inProgressFrame = window.requestAnimationFrame(continueFlush);
 
     };
 
@@ -373,33 +321,12 @@ Guacamole.Display = function() {
 
     };
 
-    // Switch from asynchronous frame handling to synchronous frame handling if
-    // requestAnimationFrame() is unlikely to be usable (browsers may not
-    // invoke the animation frame callback if the relevant tab is not focused)
-    window.addEventListener('blur', function switchToSyncFlush() {
-        if (inProgressFrame && !document.hasFocus()) {
-
-            // Cancel pending asynchronous processing of frame ...
-            window.cancelAnimationFrame(inProgressFrame);
-            inProgressFrame = null;
-
-            // ... and instead process it synchronously
-            syncFlush();
-
-        }
-    }, true);
-
     /**
      * Flushes all pending frames.
      * @private
      */
     function __flush_frames() {
-
-        if (window.requestAnimationFrame && document.hasFocus())
-            asyncFlush();
-        else
-            syncFlush();
-
+        syncFlush();
     }
 
     /**
@@ -470,7 +397,7 @@ Guacamole.Display = function() {
         /**
          * Returns whether this frame is ready to be rendered. This function
          * returns true if and only if ALL underlying tasks are unblocked.
-         * 
+         *
          * @returns {!boolean}
          *     true if all underlying tasks are unblocked, false otherwise.
          */
@@ -509,7 +436,7 @@ Guacamole.Display = function() {
     /**
      * A container for an task handler. Each operation which must be ordered
      * is associated with a Task that goes into a task queue. Tasks in this
-     * queue are executed in order once their handlers are set, while Tasks 
+     * queue are executed in order once their handlers are set, while Tasks
      * without handlers block themselves and any following Tasks from running.
      *
      * @constructor
@@ -529,10 +456,10 @@ Guacamole.Display = function() {
          * @type {!Guacamole.Display.Task}
          */
         var task = this;
-       
+
         /**
          * Whether this Task is blocked.
-         * 
+         *
          * @type {boolean}
          */
         this.blocked = blocked;
@@ -553,7 +480,10 @@ Guacamole.Display = function() {
         this.unblock = function() {
             if (task.blocked) {
                 task.blocked = false;
-                __flush_frames();
+
+                if (frames.length)
+                    __flush_frames();
+
             }
         };
 
@@ -573,7 +503,7 @@ Guacamole.Display = function() {
      * immediately after all previous tasks upon frame flush, unless this
      * task is blocked. If any tasks is blocked, the entire frame will not
      * render (and no tasks within will execute) until all tasks are unblocked.
-     * 
+     *
      * @private
      * @param {function} [handler]
      *     The function to call when possible, if any.
@@ -592,7 +522,7 @@ Guacamole.Display = function() {
 
     /**
      * Returns the element which contains the Guacamole display.
-     * 
+     *
      * @return {!Element}
      *     The element containing the Guacamole display.
      */
@@ -602,7 +532,7 @@ Guacamole.Display = function() {
 
     /**
      * Returns the width of this display.
-     * 
+     *
      * @return {!number}
      *     The width of this display;
      */
@@ -612,7 +542,7 @@ Guacamole.Display = function() {
 
     /**
      * Returns the height of this display.
-     * 
+     *
      * @return {!number}
      *     The height of this display;
      */
@@ -625,7 +555,7 @@ Guacamole.Display = function() {
      * has at least one layer. Other layers can optionally be created within
      * this layer, but the default layer cannot be removed and is the absolute
      * ancestor of all other layers.
-     * 
+     *
      * @return {!Guacamole.Display.VisibleLayer}
      *     The default layer.
      */
@@ -637,7 +567,7 @@ Guacamole.Display = function() {
      * Returns the cursor layer of this display. Each Guacamole display contains
      * a layer for the image of the mouse cursor. This layer is a special case
      * and exists above all other layers, similar to the hardware mouse cursor.
-     * 
+     *
      * @return {!Guacamole.Display.VisibleLayer}
      *     The cursor layer.
      */
@@ -649,7 +579,7 @@ Guacamole.Display = function() {
      * Creates a new layer. The new layer will be a direct child of the default
      * layer, but can be moved to be a child of any other layer. Layers returned
      * by this function are visible.
-     * 
+     *
      * @return {!Guacamole.Display.VisibleLayer}
      *     The newly-created layer.
      */
@@ -663,7 +593,7 @@ Guacamole.Display = function() {
      * Creates a new buffer. Buffers are invisible, off-screen surfaces. They
      * are implemented in the same manner as layers, but do not provide the
      * same nesting semantics.
-     * 
+     *
      * @return {!Guacamole.Layer}
      *     The newly-created buffer.
      */
@@ -677,7 +607,7 @@ Guacamole.Display = function() {
      * Flush all pending draw tasks, if possible, as a new frame. If the entire
      * frame is not ready, the flush will wait until all required tasks are
      * unblocked.
-     * 
+     *
      * @param {function} [callback]
      *     The function to call when this frame is flushed. This may happen
      *     immediately, or later when blocked tasks become unblocked.
@@ -726,7 +656,7 @@ Guacamole.Display = function() {
     /**
      * Sets the hotspot and image of the mouse cursor displayed within the
      * Guacamole display.
-     * 
+     *
      * @param {!number} hotspotX
      *     The X coordinate of the cursor hotspot.
      *
@@ -803,7 +733,7 @@ Guacamole.Display = function() {
      * Sets the location of the local cursor to the given coordinates. For the
      * sake of responsiveness, this function performs its action immediately.
      * Cursor motion is not maintained within atomic frames.
-     * 
+     *
      * @param {!number} x
      *     The X coordinate to move the cursor to.
      *
@@ -826,7 +756,7 @@ Guacamole.Display = function() {
      * Changes the size of the given Layer to the given width and height.
      * Resizing is only attempted if the new size provided is actually different
      * from the current size.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to resize.
      *
@@ -866,14 +796,14 @@ Guacamole.Display = function() {
     /**
      * Draws the specified image at the given coordinates. The image specified
      * must already be loaded.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
      * @param {!number} x
      *     The destination X coordinate.
      *
-     * @param {!number} y 
+     * @param {!number} y
      *     The destination Y coordinate.
      *
      * @param {!CanvasImageSource} image
@@ -978,17 +908,37 @@ Guacamole.Display = function() {
      */
     this.drawStream = function drawStream(layer, x, y, stream, mimetype) {
 
-        // If createImageBitmap() is available, load the image as a blob so
-        // that function can be used
-        if (window.createImageBitmap) {
-            var reader = new Guacamole.BlobReader(stream, mimetype);
-            reader.onend = function drawImageBlob() {
-                guac_display.drawBlob(layer, x, y, reader.getBlob());
-            };
+        // Leverage ImageDecoder to decode the image stream as it is received
+        // whenever possible, as this reduces latency that might otherwise be
+        // caused by waiting for the full image to be received
+        if (window.ImageDecoder && window.ReadableStream) {
+
+            var imageDecoder = new ImageDecoder({
+                type: mimetype,
+                data: stream.toReadableStream()
+            });
+
+            var decodedFrame = null;
+
+            // Draw image once loaded
+            var task = scheduleTask(function drawImageBitmap() {
+                layer.drawImage(x, y, decodedFrame);
+            }, true);
+
+            imageDecoder.decode({ completeFramesOnly: true }).then(function bitmapLoaded(result) {
+                decodedFrame = result.image;
+                task.unblock();
+            });
         }
 
-        // Lacking createImageBitmap(), fall back to data URIs and the Image
-        // object
+        // NOTE: We do not use Blobs and createImageBitmap() here, as doing so
+        // is very latent compared to the old data URI method and the new
+        // ImageDecoder object. The new ImageDecoder object is currently
+        // supported by most browsers, with other browsers being much faster if
+        // data URIs are used. The iOS version of Safari is particularly laggy
+        // if Blobs and createImageBitmap() are used instead.
+
+        // Lacking ImageDecoder, fall back to data URIs and the Image object
         else {
             var reader = new Guacamole.DataURIReader(stream, mimetype);
             reader.onend = function drawImageDataURI() {
@@ -1002,7 +952,7 @@ Guacamole.Display = function() {
      * Draws the image at the specified URL at the given coordinates. The image
      * will be loaded automatically, and this and any future operations will
      * wait for the image to finish loading.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1037,7 +987,7 @@ Guacamole.Display = function() {
      * will be loaded automatically, and this and any future operations will
      * wait for the video to finish loading. Future operations will not be
      * executed until the video finishes playing.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1059,15 +1009,15 @@ Guacamole.Display = function() {
 
         // Start copying frames when playing
         video.addEventListener("play", function() {
-            
+
             function render_callback() {
                 layer.drawImage(0, 0, video);
                 if (!video.ended)
                     window.setTimeout(render_callback, 20);
             }
-            
+
             render_callback();
-            
+
         }, false);
 
         scheduleTask(video.play);
@@ -1077,7 +1027,7 @@ Guacamole.Display = function() {
     /**
      * Transfer a rectangle of image data from one Layer to this Layer using the
      * specified transfer function.
-     * 
+     *
      * @param {!Guacamole.Layer} srcLayer
      *     The Layer to copy image data from.
      *
@@ -1119,7 +1069,7 @@ Guacamole.Display = function() {
     /**
      * Put a rectangle of image data from one Layer to this Layer directly
      * without performing any alpha blending. Simply copy the data.
-     * 
+     *
      * @param {!Guacamole.Layer} srcLayer
      *     The Layer to copy image data from.
      *
@@ -1160,7 +1110,7 @@ Guacamole.Display = function() {
      * operations of the source Layer that were pending at the time this
      * function was called are complete. This operation will not alter the
      * size of the source Layer even if its autosize property is set to true.
-     * 
+     *
      * @param {!Guacamole.Layer} srcLayer
      *     The Layer to copy image data from.
      *
@@ -1196,7 +1146,7 @@ Guacamole.Display = function() {
 
     /**
      * Starts a new path at the specified point.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1214,7 +1164,7 @@ Guacamole.Display = function() {
 
     /**
      * Add the specified line to the current path.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1295,7 +1245,7 @@ Guacamole.Display = function() {
     /**
      * Closes the current path by connecting the end point with the start
      * point (if any) with a straight line.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      */
@@ -1334,7 +1284,7 @@ Guacamole.Display = function() {
      * is implicitly closed. The current path can continue to be reused
      * for other operations (such as fillColor()) but a new path will be started
      * once a path drawing operation (path() or rect()) is used.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to affect.
      */
@@ -1385,7 +1335,7 @@ Guacamole.Display = function() {
      * is implicitly closed. The current path can continue to be reused
      * for other operations (such as clip()) but a new path will be started
      * once a path drawing operation (path() or rect()) is used.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1413,7 +1363,7 @@ Guacamole.Display = function() {
      * is implicitly closed. The current path can continue to be reused
      * for other operations (such as clip()) but a new path will be started
      * once a path drawing operation (path() or rect()) is used.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1441,7 +1391,7 @@ Guacamole.Display = function() {
      * is implicitly closed. The current path can continue to be reused
      * for other operations (such as clip()) but a new path will be started
      * once a path drawing operation (path() or rect()) is used.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      *
@@ -1456,7 +1406,7 @@ Guacamole.Display = function() {
 
     /**
      * Push current layer state onto stack.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      */
@@ -1468,7 +1418,7 @@ Guacamole.Display = function() {
 
     /**
      * Pop layer state off stack.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      */
@@ -1481,7 +1431,7 @@ Guacamole.Display = function() {
     /**
      * Reset the layer, clearing the stack, the current path, and any transform
      * matrix.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to draw upon.
      */
@@ -1556,13 +1506,13 @@ Guacamole.Display = function() {
 
     /**
      * Sets the channel mask for future operations on this Layer.
-     * 
+     *
      * The channel mask is a Guacamole-specific compositing operation identifier
      * with a single bit representing each of four channels (in order): source
      * image where destination transparent, source where destination opaque,
      * destination where source transparent, and destination where source
      * opaque.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to modify.
      *
@@ -1580,7 +1530,7 @@ Guacamole.Display = function() {
      * limit is the maximum ratio of the size of the miter join to the stroke
      * width. If this ratio is exceeded, the miter will not be drawn for that
      * joint of the path.
-     * 
+     *
      * @param {!Guacamole.Layer} layer
      *     The layer to modify.
      *
@@ -1723,7 +1673,7 @@ Guacamole.Display = function() {
      *     A new canvas element containing a copy of the display.
      */
     this.flatten = function() {
-       
+
         // Get destination canvas
         var canvas = document.createElement("canvas");
         canvas.width = default_layer.width;
@@ -1797,7 +1747,7 @@ Guacamole.Display = function() {
 
         // Return new canvas copy
         return canvas;
-        
+
     };
 
 };
@@ -1806,7 +1756,7 @@ Guacamole.Display = function() {
  * Simple container for Guacamole.Layer, allowing layers to be easily
  * repositioned and nested. This allows certain operations to be accelerated
  * through DOM manipulation, rather than raster operations.
- * 
+ *
  * @constructor
  * @augments Guacamole.Layer
  * @param {!number} width
@@ -1833,7 +1783,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
      * Identifier which uniquely identifies this layer. This is COMPLETELY
      * UNRELATED to the index of the underlying layer, which is specific
      * to the Guacamole protocol, and not relevant at this level.
-     * 
+     *
      * @private
      * @type {!number}
      */
@@ -1875,7 +1825,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
      * corresponds to a value from the transformation matrix, with the first
      * three values being the first row, and the last three values being the
      * second row. There are six values total.
-     * 
+     *
      * @type {!number[]}
      */
     this.matrix = [1, 0, 0, 1, 0, 0];
@@ -1925,7 +1875,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
         __super_resize(width, height);
 
     };
-  
+
     /**
      * Returns the element containing the canvas and any other elements
      * associated with this layer.
@@ -1956,7 +1906,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
     /**
      * Moves the upper-left corner of this layer to the given X and Y
      * coordinate.
-     * 
+     *
      * @param {!number} x
      *     The X coordinate to move to.
      *
@@ -1973,7 +1923,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
                         + x + "px,"
                         + y + "px)";
 
-        // Set layer transform 
+        // Set layer transform
         div.style.transform =
         div.style.WebkitTransform =
         div.style.MozTransform =
@@ -1988,7 +1938,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
      * Moves the upper-left corner of this VisibleLayer to the given X and Y
      * coordinate, sets the Z stacking order, and reparents this VisibleLayer
      * to the given VisibleLayer.
-     * 
+     *
      * @param {!Guacamole.Display.VisibleLayer} parent
      *     The parent to set.
      *
@@ -2028,7 +1978,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
     /**
      * Sets the opacity of this layer to the given value, where 255 is fully
      * opaque and 0 is fully transparent.
-     * 
+     *
      * @param {!number} a
      *     The opacity to set.
      */
@@ -2052,7 +2002,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
         // Remove from parent element
         if (div.parentNode)
             div.parentNode.removeChild(div);
-        
+
     };
 
     /**
@@ -2089,10 +2039,10 @@ Guacamole.Display.VisibleLayer = function(width, height) {
              * b d f
              * 0 0 1
              */
-    
+
             "matrix(" + a + "," + b + "," + c + "," + d + "," + e + "," + f + ")";
 
-        // Set layer transform 
+        // Set layer transform
         div.style.transform =
         div.style.WebkitTransform =
         div.style.MozTransform =
@@ -2109,7 +2059,7 @@ Guacamole.Display.VisibleLayer = function(width, height) {
  * The next identifier to be assigned to the layer container. This identifier
  * uniquely identifies each VisibleLayer, but is unrelated to the index of
  * the layer, which exists at the protocol/client level only.
- * 
+ *
  * @private
  * @type {!number}
  */
